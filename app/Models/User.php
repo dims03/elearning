@@ -4,16 +4,18 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable implements FilamentUser, HasMedia
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
@@ -30,6 +32,15 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         };
     }
 
+    public function getFilamentAvatarUrl(): ?string
+    {
+        if (blank($this->avatar_url)) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->avatar_url);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -39,6 +50,9 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         'name',
         'email',
         'password',
+        'phone',
+        'bio',
+        'avatar_url',
     ];
 
     /**
