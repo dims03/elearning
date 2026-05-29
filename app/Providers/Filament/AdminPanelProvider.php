@@ -29,7 +29,6 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->brandName('E-Learning Admin')
             ->login(Login::class)
             ->spa()
             ->colors([
