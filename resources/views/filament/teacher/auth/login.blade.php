@@ -125,23 +125,6 @@
             margin-bottom: 24px;
         }
 
-        .admin-login-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--admin-card-muted);
-            font-size: 0.84rem;
-            font-weight: 500;
-        }
-
-        .admin-login-badge::before {
-            content: "";
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: var(--admin-accent);
-        }
-
         .admin-login-theme-toggle {
             display: inline-flex;
             align-items: center;
@@ -182,13 +165,6 @@
             line-height: 1.05;
             font-weight: 600;
             color: var(--admin-card-text);
-        }
-
-        .admin-login-card-copy p {
-            margin: 0;
-            color: var(--admin-card-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
         }
 
         .admin-login-form {
@@ -282,18 +258,6 @@
             font-size: 0.88rem;
         }
 
-        .admin-login-forgot {
-            display: inline-flex;
-            margin-top: 2px;
-            color: var(--admin-card-muted);
-            font-size: 0.84rem;
-            text-decoration: none;
-        }
-
-        .admin-login-forgot:hover {
-            color: var(--admin-card-text);
-        }
-
         .admin-login-card .fi-ac {
             margin-top: 16px;
         }
@@ -323,38 +287,6 @@
 
         html.dark .admin-login-card .fi-ac .fi-btn:focus-visible {
             outline: 2px solid rgba(246, 234, 214, 0.28);
-        }
-
-        .admin-login-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: auto;
-            padding-top: 18px;
-            color: var(--admin-card-muted);
-            font-size: 0.82rem;
-        }
-
-        .admin-login-signup {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 38px;
-            padding: 0 16px;
-            border: 1px solid var(--admin-back-btn-line);
-            border-radius: 8px;
-            background: var(--admin-back-btn-bg);
-            color: var(--admin-card-text);
-            text-decoration: none;
-            transition: background-color 160ms ease;
-        }
-
-        .admin-login-signup:hover {
-            background: rgba(36, 33, 29, 0.08);
-        }
-
-        html.dark .admin-login-signup:hover {
-            background: rgba(255, 255, 255, 0.12);
         }
 
         .admin-login-intro {
@@ -504,22 +436,13 @@
             .admin-login-intro-copy h1 {
                 font-size: 2.4rem;
             }
-
-            .admin-login-footer {
-                gap: 12px;
-                flex-wrap: wrap;
-            }
         }
     </style>
 @endpush
 
-@php
-    $portalName = str(filament()->getCurrentPanel()?->getId() ?? 'admin')->headline();
-@endphp
-
 <div>
     <div class="admin-login-shell">
-        <section class="admin-login-card" aria-label="Admin login form">
+        <section class="admin-login-card" aria-label="Teacher login form">
             <div class="admin-login-form">
                 <div class="admin-login-topbar">
                     <button type="button" class="admin-login-theme-toggle" data-theme-toggle aria-label="Toggle color theme">
@@ -534,23 +457,17 @@
                 </div>
 
                 {{ $this->content }}
-
-                {{-- @if (filament()->hasPasswordReset())
-                    <a href="{{ filament()->getRequestPasswordResetUrl() }}" class="admin-login-forgot">Forgot Password?</a>
-                @else
-                    <span class="admin-login-forgot">Forgot Password?</span>
-                @endif --}}
             </div>
         </section>
 
         <section class="admin-login-intro" aria-label="Portal introduction">
             <div class="admin-login-intro-copy">
-                <h1>Welcome to <span>{{ $portalName }} portal</span></h1>
+                <h1>Welcome to <span>Teacher portal</span></h1>
                 <p>Login to access your account</p>
             </div>
 
             <div class="admin-login-illustration" aria-hidden="true">
-                <img src="{{ asset('storage/asset/transparent-image.png') }}" alt="">
+                <img src="{{ asset('storage/asset/teacher.png') }}" alt="">
             </div>
         </section>
     </div>
