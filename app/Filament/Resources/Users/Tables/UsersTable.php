@@ -36,10 +36,10 @@ class UsersTable
                         'student' => 'success',
                         default   => 'gray',
                     }),
-                // TextColumn::make('enrollments_count')
-                //     ->label('Kursus')
-                //     ->counts('enrollments')
-                //     ->sortable(),
+                TextColumn::make('enrollments_count')
+                    ->label('Kursus')
+                    ->counts('enrollments')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Terdaftar')
                     ->dateTime('d M Y')

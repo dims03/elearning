@@ -14,15 +14,22 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
-    protected static string | unitEnum | null $navigationGroup = 'Settings';
+    protected static string | unitEnum | null $navigationGroup = 'Master Data';
 
     protected static ?string $recordTitleAttribute = 'User';
+
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->withCount('enrollments');
+    }
 
     public static function form(Schema $schema): Schema
     {

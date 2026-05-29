@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\MediaLibrary\HasMedia;
@@ -24,7 +25,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 
     public function canAccessPanel(Panel $panel): bool
     {
-         return match($panel->getId()) {
+        return match ($panel->getId()) {
             'admin'   => $this->hasRole('admin'),
             'teacher' => $this->hasRole('teacher'),
             'student' => $this->hasRole('student'),
@@ -76,5 +77,10 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function enrollments(): HasMany
+    {
+        return $this->hasMany(CourseEnrollment::class);
     }
 }
