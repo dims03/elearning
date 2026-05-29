@@ -650,7 +650,7 @@
                     <article class="portal-card">
                         <span>Internal access</span>
                         <h3>Admin via hotkey</h3>
-                        <p>Shortcut admin tetap aktif. Dari landing page tekan <strong>Ctrl + Shift + L</strong> untuk membuka login admin.</p>
+                        {{-- <p>Shortcut admin tetap aktif. Dari landing page tekan <strong>Ctrl + Shift + L</strong> untuk membuka login admin.</p> --}}
                         <div class="portal-actions">
                             <a href="#home" class="button">Back to top</a>
                         </div>
