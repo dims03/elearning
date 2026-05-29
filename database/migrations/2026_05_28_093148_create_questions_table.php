@@ -13,14 +13,19 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('question_id')
+            $table->foreignId('exam_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->text('option_text');
-            $table->boolean('is_correct')->default(false);
+            $table->text('question_text');
+            $table->enum('type', ['multiple_choice', 'true_false', 'essay'])
+                ->default('multiple_choice');
+            $table->unsignedInteger('points')->default(1);
             $table->unsignedInteger('order')->default(0);
+            $table->text('explanation')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
-            $table->index(['question_id', 'is_correct']);
+
+            $table->index(['exam_id', 'type']);
         });
     }
 

@@ -8,6 +8,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Set;
+use Illuminate\Support\Str;
 
 class CategoryForm
 {
@@ -23,7 +25,7 @@ class CategoryForm
                             ->maxLength(100)
                             ->live(onBlur: true)
                             ->afterStateUpdated(
-                                fn($state, Forms\Set $set) =>
+                                fn($state, Set $set) =>
                                 $set('slug', Str::slug($state))
                             ),
                         TextInput::make('slug')
@@ -56,7 +58,7 @@ class CategoryForm
                         Toggle::make('is_active')
                             ->label('Aktif')
                             ->default(true),
-                    ])->columns(2),
+                    ])->columns(2)->columnSpanFull(),
             ]);
     }
 }

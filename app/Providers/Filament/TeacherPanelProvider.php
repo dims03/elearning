@@ -27,7 +27,6 @@ class TeacherPanelProvider extends PanelProvider
         return $panel
             ->id('teacher')
             ->path('teacher')
-            ->brandName('E-Learning Teacher')
             ->login(Login::class)
             ->colors([
                 'primary' => Color::Amber,
