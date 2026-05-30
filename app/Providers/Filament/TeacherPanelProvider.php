@@ -31,7 +31,7 @@ class TeacherPanelProvider extends PanelProvider
             ->login(Login::class)
             ->spa(hasPrefetching: true)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Yellow,
             ])
             ->discoverResources(in: app_path('Filament/Teacher/Resources'), for: 'App\Filament\Teacher\Resources')
             ->discoverPages(in: app_path('Filament/Teacher/Pages'), for: 'App\Filament\Teacher\Pages')

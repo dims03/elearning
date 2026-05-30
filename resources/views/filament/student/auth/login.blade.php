@@ -125,6 +125,74 @@
             margin-bottom: 24px;
         }
 
+        .admin-login-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--admin-card-line);
+            border-radius: 999px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.42));
+            color: var(--admin-card-text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            box-shadow: 0 10px 24px rgba(36, 33, 29, 0.08);
+            cursor: pointer;
+            transition:
+                transform 160ms ease,
+                box-shadow 160ms ease,
+                border-color 160ms ease,
+                background 160ms ease;
+        }
+
+        .admin-login-home-btn:hover {
+            transform: translateY(-1px);
+            border-color: rgba(36, 33, 29, 0.22);
+            box-shadow: 0 14px 28px rgba(36, 33, 29, 0.12);
+        }
+
+        .admin-login-home-btn:focus-visible {
+            outline: 2px solid rgba(36, 33, 29, 0.18);
+            outline-offset: 2px;
+        }
+
+        .admin-login-home-btn-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.9rem;
+            height: 1.9rem;
+            border-radius: 999px;
+            background: rgba(36, 33, 29, 0.08);
+        }
+
+        .admin-login-home-btn-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        html.dark .admin-login-home-btn {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+            border-color: rgba(246, 234, 214, 0.14);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+        }
+
+        html.dark .admin-login-home-btn:hover {
+            border-color: rgba(246, 234, 214, 0.24);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.32);
+        }
+
+        html.dark .admin-login-home-btn:focus-visible {
+            outline: 2px solid rgba(246, 234, 214, 0.2);
+        }
+
+        html.dark .admin-login-home-btn-icon {
+            background: rgba(246, 234, 214, 0.1);
+        }
+
         .admin-login-theme-toggle {
             display: inline-flex;
             align-items: center;
@@ -445,6 +513,14 @@
         <section class="admin-login-card" aria-label="Student login form">
             <div class="admin-login-form">
                 <div class="admin-login-topbar">
+                    <button type="button" class="admin-login-home-btn" onclick="window.location.href='/'">
+                        <span class="admin-login-home-btn-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M10.25 6.75L5 12M5 12L10.25 17.25M5 12H19" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        <span>Back to Home</span>
+                    </button>
                     <button type="button" class="admin-login-theme-toggle" data-theme-toggle aria-label="Toggle color theme">
                         <svg data-theme-icon="sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <path d="M12 3V5.5M12 18.5V21M5.64 5.64L7.4 7.4M16.6 16.6L18.36 18.36M3 12H5.5M18.5 12H21M5.64 18.36L7.4 16.6M16.6 7.4L18.36 5.64M15.5 12A3.5 3.5 0 1 1 8.5 12A3.5 3.5 0 0 1 15.5 12Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
