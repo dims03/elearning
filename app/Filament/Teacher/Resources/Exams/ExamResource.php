@@ -5,6 +5,7 @@ namespace App\Filament\Teacher\Resources\Exams;
 use App\Filament\Teacher\Resources\Exams\Pages\CreateExam;
 use App\Filament\Teacher\Resources\Exams\Pages\EditExam;
 use App\Filament\Teacher\Resources\Exams\Pages\ListExams;
+use App\Filament\Teacher\Resources\Exams\RelationManagers\SessionsRelationManager;
 use App\Filament\Teacher\Resources\Exams\Schemas\ExamForm;
 use App\Filament\Teacher\Resources\Exams\Tables\ExamsTable;
 use App\Models\Exam;
@@ -46,7 +47,7 @@ class ExamResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SessionsRelationManager::class,
         ];
     }
 

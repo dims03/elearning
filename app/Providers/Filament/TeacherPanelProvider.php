@@ -28,6 +28,7 @@ class TeacherPanelProvider extends PanelProvider
             ->id('teacher')
             ->path('teacher')
             ->login(Login::class)
+            ->spa(hasPrefetching: true)
             ->colors([
                 'primary' => Color::Amber,
             ])
