@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Student\Pages\Auth\Login;
+use App\Filament\Student\Widgets\StudentStatsOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,6 +28,7 @@ class StudentPanelProvider extends PanelProvider
         return $panel
             ->id('student')
             ->path('student')
+            ->viteTheme('resources/css/filament/student/theme.css')
             ->login(Login::class)
             ->spa(hasPrefetching: true)
             ->colors([
@@ -39,8 +41,9 @@ class StudentPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Student/Widgets'), for: 'App\Filament\Student\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                StudentStatsOverview::class,
+                // AccountWidget::class,
+                // FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
