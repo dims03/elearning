@@ -79,6 +79,7 @@ class ChaptersRelationManager extends RelationManager
                             'title'           => $l->title,
                             'type'            => $l->type,
                             'video_url'       => $l->video_url,
+                            'attachment'      => $l->attachment,
                             'content'         => $l->content,
                             'duration_minutes' => $l->duration_minutes,
                             'is_free_preview' => $l->is_free_preview,
@@ -122,6 +123,7 @@ class ChaptersRelationManager extends RelationManager
 
                                 Forms\Components\FileUpload::make('attachment')
                                     ->label('Upload PDF')
+                                    ->disk('public')
                                     ->acceptedFileTypes(['application/pdf'])
                                     ->directory('lessons/pdf')
                                     ->columnSpanFull()

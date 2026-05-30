@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Course extends Model
@@ -111,5 +112,25 @@ class Course extends Model
     public function isPublished(): bool
     {
         return $this->status === 'published';
+    }
+
+    public function getThumbnailUrlAttribute(): ?string
+    {
+        if (blank($this->thumbnail)) {
+            return null;
+        }
+
+        if (Storage::disk('public')->exists($this->thumbnail)) {
+            return Storage::disk('public')->url($this->thumbnail);
+        }
+
+        if (Storage::disk('local')->exists($this->thumbnail)) {
+            Storage::disk('public')->makeDirectory(dirname($this->thumbnail));
+            Storage::disk('public')->put($this->thumbnail, Storage::disk('local')->get($this->thumbnail));
+
+            return Storage::disk('public')->url($this->thumbnail);
+        }
+
+        return null;
     }
 }

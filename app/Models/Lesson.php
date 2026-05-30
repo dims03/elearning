@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class Lesson extends Model
 {
@@ -86,5 +87,25 @@ class Lesson extends Model
     public function isPdf(): bool
     {
         return $this->type === 'pdf';
+    }
+
+    public function getAttachmentUrlAttribute(): ?string
+    {
+        if (blank($this->attachment)) {
+            return null;
+        }
+
+        if (Storage::disk('public')->exists($this->attachment)) {
+            return Storage::disk('public')->url($this->attachment);
+        }
+
+        if (Storage::disk('local')->exists($this->attachment)) {
+            Storage::disk('public')->makeDirectory(dirname($this->attachment));
+            Storage::disk('public')->put($this->attachment, Storage::disk('local')->get($this->attachment));
+
+            return Storage::disk('public')->url($this->attachment);
+        }
+
+        return null;
     }
 }
