@@ -5,6 +5,7 @@ namespace App\Filament\Teacher\Resources\Exams\RelationManagers;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
@@ -92,6 +93,8 @@ class SessionsRelationManager extends RelationManager
                     ->color('info')
                     ->modalHeading(fn ($record) => 'Jawaban: ' . $record->user->name)
                     ->modalWidth('5xl')
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Close')
                     ->modalContent(function ($record) {
                         $answers = $record->answers()->with(['question.options', 'selectedOption'])->get();
                         return view('filament.teacher.modals.exam-answers', compact('answers', 'record'));
@@ -125,7 +128,7 @@ class SessionsRelationManager extends RelationManager
                             ->get();
 
                         foreach ($essayAnswers as $answer) {
-                            $fields[] = Forms\Components\Fieldset::make('Soal: ' . $answer->question->question_text)
+                            $fields[] = Fieldset::make('Soal: ' . $answer->question->question_text)
                                 ->schema([
                                     Forms\Components\Placeholder::make('answer_' . $answer->id)
                                         ->label('Jawaban Siswa')
