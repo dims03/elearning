@@ -27,6 +27,7 @@ class TeacherPanelProvider extends PanelProvider
         return $panel
             ->id('teacher')
             ->path('teacher')
+            ->favicon(asset('storage/asset/favicon.png'))
             ->viteTheme('resources/css/filament/teacher/theme.css')
             ->login(Login::class)
             ->spa(hasPrefetching: true)

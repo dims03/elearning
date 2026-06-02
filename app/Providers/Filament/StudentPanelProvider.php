@@ -28,6 +28,7 @@ class StudentPanelProvider extends PanelProvider
         return $panel
             ->id('student')
             ->path('student')
+            ->favicon(asset('storage/asset/favicon.png'))
             ->viteTheme('resources/css/filament/student/theme.css')
             ->login(Login::class)
             ->spa(hasPrefetching: true)

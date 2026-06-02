@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ config('app.name', 'Eduix') }}</title>
+        <link rel="icon" type="image/png" href="{{ asset('storage/asset/favicon.png') }}">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=outfit:400,500,600,700|cormorant-garamond:500,600,700" rel="stylesheet" />
@@ -190,7 +191,10 @@
 
             .hero-visual {
                 position: relative;
-                min-height: 520px;
+                display: flex;
+                align-items: center;
+                min-height: 480px;
+                margin-top: 0;
             }
 
             .hero-orb {
@@ -206,7 +210,7 @@
             .hero-illustration {
                 position: relative;
                 width: 100%;
-                height: 100%;
+                height: 410px;
                 border: 1px solid rgba(36, 33, 29, 0.08);
                 background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04));
                 overflow: hidden;
@@ -216,8 +220,10 @@
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
+                object-position: center 52%;
                 display: block;
                 mix-blend-mode: multiply;
+                transform: scale(1.01);
             }
 
             .section {
@@ -516,9 +522,9 @@
                 <a href="#home" class="brand">E-Learning Platform</a>
 
                 <nav class="nav" aria-label="Primary navigation">
-                    <a href="#home">Home</a>
+                    {{-- <a href="#home">Home</a>
                     <a href="#courses">Course List</a>
-                    <a href="#about">About us</a>
+                    <a href="#about">About us</a> --}}
                 </nav>
 
                 <div class="header-cta">
@@ -542,154 +548,6 @@
                     <div class="hero-illustration">
                         <img src="{{ asset('storage/asset/image.webp') }}" alt="E-learning illustration">
                     </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <div class="stats-grid">
-                    <article class="stat-card">
-                        <div class="stat-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M5 6H19V18H5V6Z" stroke="#24211D" stroke-width="1.6"/>
-                                <path d="M8 10L11 13L16 8" stroke="#24211D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <span class="stat-value">1200+</span>
-                        <span class="stat-label">Online Courses</span>
-                        <p class="stat-copy">Structured learning paths for classes, self-paced lessons, and course completion tracking.</p>
-                    </article>
-
-                    <article class="stat-card">
-                        <div class="stat-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M7 18C7 15.8 8.8 14 11 14H13C15.2 14 17 15.8 17 18" stroke="#24211D" stroke-width="1.6" stroke-linecap="round"/>
-                                <path d="M12 11C13.7 11 15 9.7 15 8C15 6.3 13.7 5 12 5C10.3 5 9 6.3 9 8C9 9.7 10.3 11 12 11Z" stroke="#24211D" stroke-width="1.6"/>
-                                <path d="M4 4H20V20H4V4Z" stroke="#24211D" stroke-width="1.6"/>
-                            </svg>
-                        </div>
-                        <span class="stat-value">220</span>
-                        <span class="stat-label">Certified Teacher</span>
-                        <p class="stat-copy">A focused teaching panel to manage material, quizzes, student performance, and class delivery.</p>
-                    </article>
-
-                    <article class="stat-card">
-                        <div class="stat-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M7 17H17" stroke="#24211D" stroke-width="1.6" stroke-linecap="round"/>
-                                <path d="M9 14H15" stroke="#24211D" stroke-width="1.6" stroke-linecap="round"/>
-                                <path d="M12 6L17 9V14C17 16.8 14.8 19 12 19C9.2 19 7 16.8 7 14V9L12 6Z" stroke="#24211D" stroke-width="1.6" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <span class="stat-value">30K+</span>
-                        <span class="stat-label">Students</span>
-                        <p class="stat-copy">From enrollment to progress reviews, every student can keep learning activity in one place.</p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section" id="courses">
-                <div class="section-heading">
-                    <h2>Course list built for real learning flow.</h2>
-                    <p>Use the landing page as a clean public front, then guide each role into the panel they actually need.</p>
-                </div>
-
-                <div class="course-grid">
-                    <article class="course-card">
-                        <span>Design Basics</span>
-                        <h3>Visual Course Delivery</h3>
-                        <p>Organize modules, lessons, and assignments so students can move from introduction to completion without confusion.</p>
-                        <div class="course-meta">
-                            <strong>12 lessons</strong>
-                            <span>Beginner</span>
-                        </div>
-                    </article>
-
-                    <article class="course-card">
-                        <span>Teaching Tools</span>
-                        <h3>Assessment and Quiz Setup</h3>
-                        <p>Create objective tests, structured evaluations, and score tracking directly from the teacher workflow.</p>
-                        <div class="course-meta">
-                            <strong>8 modules</strong>
-                            <span>Intermediate</span>
-                        </div>
-                    </article>
-
-                    <article class="course-card">
-                        <span>Student Growth</span>
-                        <h3>Progress Monitoring</h3>
-                        <p>Track enrollments, lesson completion, and participation data to keep each class measurable and actionable.</p>
-                        <div class="course-meta">
-                            <strong>Live reports</strong>
-                            <span>All levels</span>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section" id="portal-access">
-                <div class="section-heading">
-                    <h2>Portal access for each learning role.</h2>
-                    <p>Student and teacher stay visible from the landing page. Admin remains hidden behind the keyboard shortcut.</p>
-                </div>
-
-                <div class="portal-grid">
-                    <article class="portal-card">
-                        <span>Student access</span>
-                        <h3>Continue learning</h3>
-                        <p>Masuk ke panel student untuk melihat course aktif, lesson progress, dan hasil evaluasi belajar.</p>
-                        <div class="portal-meta">Akses login tersedia dari tombol header bagian kanan atas.</div>
-                    </article>
-
-                    <article class="portal-card">
-                        <span>Teacher access</span>
-                        <h3>Manage your class</h3>
-                        <p>Masuk ke panel teacher untuk kelola materi, ujian, chapter, dan performa peserta didik.</p>
-                        <div class="portal-meta">Teacher login juga dipindahkan ke header agar tampilan landing lebih rapi.</div>
-                    </article>
-
-                    <article class="portal-card">
-                        <span>Internal access</span>
-                        <h3>Admin via hotkey</h3>
-                        {{-- <p>Shortcut admin tetap aktif. Dari landing page tekan <strong>Ctrl + Shift + L</strong> untuk membuka login admin.</p> --}}
-                        <div class="portal-actions">
-                            <a href="#home" class="button">Back to top</a>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section" id="about">
-                <div class="section-heading">
-                    <h2>About this platform.</h2>
-                    <p>A simple front page with a stronger visual identity, while the actual teaching and learning work still happens inside Filament panels.</p>
-                </div>
-
-                <div class="about-box">
-                    <article class="about-panel">
-                        <p>
-                            Landing ini didesain seperti referensi yang kamu kirim: ringan, editorial, dominan warna krem,
-                            dan terasa seperti halaman promosi platform pendidikan. Dengan begitu halaman depan project ini
-                            tidak lagi terlihat default Laravel, tapi langsung terasa sebagai produk e-learning.
-                        </p>
-                    </article>
-
-                    <article class="about-highlight">
-                        <p>Yang tetap dipertahankan dari implementasi sebelumnya:</p>
-                        <div class="about-points">
-                            <div>
-                                <strong>Student login</strong>
-                                Arah masuk langsung ke panel siswa.
-                            </div>
-                            <div>
-                                <strong>Teacher login</strong>
-                                Arah masuk langsung ke panel pengajar.
-                            </div>
-                            <div>
-                                <strong>Admin shortcut</strong>
-                                Tetap tersembunyi dan dibuka lewat hotkey.
-                            </div>
-                        </div>
-                    </article>
                 </div>
             </section>
         </div>
