@@ -27,7 +27,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     {
         return match ($panel->getId()) {
             'admin'   => $this->hasRole('admin'),
-            'teacher' => $this->hasRole('teacher'),
+            'teacher' => $this->hasRole('teacher') || $this->hasRole('admin'),
             'student' => $this->hasRole('student'),
             default   => false,
         };

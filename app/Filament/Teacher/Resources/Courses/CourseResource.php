@@ -17,6 +17,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
 class CourseResource extends Resource
@@ -30,9 +31,14 @@ class CourseResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->where('teacher_id', auth()->id())
+        $query = parent::getEloquentQuery()
             ->withCount(['chapters', 'enrollments', 'exams']);
+        
+        if (Auth::user()->hasRole('admin')) {
+            return $query;
+        }
+
+        return $query->where('teacher_id', Auth::id());
     }
 
     public static function form(Schema $schema): Schema

@@ -16,30 +16,48 @@ class TeacherStatsOverview extends BaseWidget
 
     protected function getStats(): array
     {
-        $teacherId = Auth::id();
+        $user = Auth::user();
+        $isAdmin = $user->hasRole('admin');
+        $teacherId = $user->id;
 
-        $totalCourses     = Course::where('teacher_id', $teacherId)->count();
-        $publishedCourses = Course::where('teacher_id', $teacherId)
-            ->where('status', 'published')->count();
+        $totalCourses = $isAdmin
+            ? Course::count()
+            : Course::where('teacher_id', $teacherId)->count();
+
+        $publishedCourses = $isAdmin
+            ? Course::where('status', 'published')->count()
+            : Course::where('teacher_id', $teacherId)->where('status', 'published')->count();
+
+        $totalStudents = $isAdmin
+            ? CourseEnrollment::distinct('user_id')->count('user_id')
+            : CourseEnrollment::whereHas(
+                'course',
+                fn($q) =>
+                $q->where('teacher_id', $teacherId)
+            )->distinct('user_id')->count('user_id');
         $draftCourses     = $totalCourses - $publishedCourses;
 
-        $totalStudents = CourseEnrollment::whereHas('course', fn ($q) =>
-            $q->where('teacher_id', $teacherId)
-        )->distinct('user_id')->count('user_id');
-
-        $activeStudents = CourseEnrollment::whereHas('course', fn ($q) =>
+        $activeStudents = CourseEnrollment::whereHas(
+            'course',
+            fn($q) =>
             $q->where('teacher_id', $teacherId)
         )->where('status', 'active')->count();
 
-        $totalExams = Exam::whereHas('course', fn ($q) =>
+        $totalExams = Exam::whereHas(
+            'course',
+            fn($q) =>
             $q->where('teacher_id', $teacherId)
         )->count();
 
-        $totalSessions = ExamSession::whereHas('exam.course', fn ($q) =>
+        $totalSessions = ExamSession::whereHas(
+            'exam.course',
+            fn($q) =>
             $q->where('teacher_id', $teacherId)
         )->where('status', 'graded')->count();
 
-        $passedSessions = ExamSession::whereHas('exam.course', fn ($q) =>
+        $passedSessions = ExamSession::whereHas(
+            'exam.course',
+            fn($q) =>
             $q->where('teacher_id', $teacherId)
         )->where('is_passed', true)->count();
 
