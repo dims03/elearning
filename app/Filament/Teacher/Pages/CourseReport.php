@@ -34,8 +34,9 @@ class CourseReport extends Page
 
     public function getCourses()
     {
-        return Course::where('teacher_id', Auth::id())
+        return Course::with('teacher')
             ->where('status', 'published')
+            ->orderBy('title')
             ->get();
     }
     public function toggleExam(int $examId): void

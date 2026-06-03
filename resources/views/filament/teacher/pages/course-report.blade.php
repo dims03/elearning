@@ -2,34 +2,48 @@
 
     {{-- Filter kursus --}}
     <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-6">
-        <div class="flex items-end gap-4">
-            <div class="flex-1">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Pilih Kursus
-                </label>
-                <select wire:model.live="selectedCourseId"
-                    class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500">
-                    <option value="">— Pilih kursus —</option>
-                    @foreach ($this->getCourses() as $course)
-                        <option value="{{ $course->id }}">{{ $course->title }}</option>
-                    @endforeach
-                </select>
-            </div>
+        <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Pilih Kursus
+            </label>
+            <select wire:model.live="selectedCourseId"
+                class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500">
+                <option value="">— Pilih kursus —</option>
+                @foreach ($this->getCourses() as $course)
+                    <option value="{{ $course->id }}">
+                        {{ $course->title }}
+                        @if($course->teacher)
+                            — {{ $course->teacher->name }}
+                        @endif
+                    </option>
+                @endforeach
+            </select>
         </div>
     </div>
 
     @php $data = $this->getReportData(); @endphp
 
     @if (empty($data))
-        {{-- Empty state --}}
         <div class="flex flex-col items-center justify-center py-20 text-center">
             <x-heroicon-o-chart-bar class="w-16 h-16 text-gray-300 mb-4" />
             <p class="text-gray-500">Pilih kursus untuk melihat laporan</p>
         </div>
-
     @else
 
-        {{-- ── Summary Stats ─────────────────────────────────────────────── --}}
+        {{-- Info kursus + guru --}}
+        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl px-5 py-3 mb-6 flex items-center gap-3">
+            <x-heroicon-o-book-open class="w-5 h-5 text-blue-500 flex-shrink-0"/>
+            <div>
+                <p class="font-semibold text-blue-900 dark:text-blue-200 text-sm">{{ $data['course']->title }}</p>
+                <p class="text-xs text-blue-600 dark:text-blue-400">
+                    Guru: {{ $data['course']->teacher->name ?? '—' }} ·
+                    {{ $data['course']->category->name ?? '—' }} ·
+                    {{ ucfirst($data['course']->level) }}
+                </p>
+            </div>
+        </div>
+
+        {{-- Summary Stats --}}
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-center">
                 <p class="text-xs text-gray-400 mb-1">Total Siswa</p>
@@ -57,10 +71,8 @@
             </div>
         </div>
 
-        {{-- ── Tabel Progress Siswa ───────────────────────────────────────── --}}
+        {{-- Tabel Progress Siswa --}}
         <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 mb-6 overflow-hidden">
-
-            {{-- Header tabel --}}
             <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                 <h3 class="font-semibold text-gray-900 dark:text-white">Progress Siswa</h3>
                 <div class="flex items-center gap-3">
@@ -75,7 +87,6 @@
                 </div>
             </div>
 
-            {{-- Tabel --}}
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead class="bg-gray-50 dark:bg-gray-900">
@@ -86,7 +97,7 @@
                             <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Progress</th>
                             <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Status</th>
                             <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Tgl Enroll</th>
-                            <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Nilai Ujian Terbaik</th>
+                            <th class="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase">Nilai Terbaik</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
@@ -156,17 +167,14 @@
                         dari {{ $data['enrollments']->total() }} siswa
                     </p>
                     <div class="flex gap-2">
-                        <button
-                            wire:click="$set('enrollmentPage', {{ $data['enrollments']->currentPage() - 1 }})"
+                        <button wire:click="$set('enrollmentPage', {{ $data['enrollments']->currentPage() - 1 }})"
                             @disabled($data['enrollments']->onFirstPage())
                             class="px-3 py-1.5 text-xs rounded-lg border border-gray-300 dark:border-gray-600
                                 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700">
                             ← Prev
                         </button>
-
                         @foreach (range(1, $data['enrollments']->lastPage()) as $page)
-                            <button
-                                wire:click="$set('enrollmentPage', {{ $page }})"
+                            <button wire:click="$set('enrollmentPage', {{ $page }})"
                                 class="px-3 py-1.5 text-xs rounded-lg border
                                     {{ $page === $data['enrollments']->currentPage()
                                         ? 'bg-blue-600 text-white border-blue-600'
@@ -174,9 +182,7 @@
                                 {{ $page }}
                             </button>
                         @endforeach
-
-                        <button
-                            wire:click="$set('enrollmentPage', {{ $data['enrollments']->currentPage() + 1 }})"
+                        <button wire:click="$set('enrollmentPage', {{ $data['enrollments']->currentPage() + 1 }})"
                             @disabled(!$data['enrollments']->hasMorePages())
                             class="px-3 py-1.5 text-xs rounded-lg border border-gray-300 dark:border-gray-600
                                 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700">
@@ -185,31 +191,23 @@
                     </div>
                 </div>
             @endif
-
         </div>
-        {{-- ── END Tabel Progress Siswa ───────────────────────────────────── --}}
 
-        {{-- ── Tabel Hasil Ujian per exam ────────────────────────────────── --}}
+        {{-- Tabel Hasil Ujian per exam --}}
         @foreach ($data['course']->exams as $exam)
             @php
                 $totalSessions = \App\Models\ExamSession::where('exam_id', $exam->id)
-                    ->where('status', 'graded')
-                    ->count();
-
+                    ->where('status', 'graded')->count();
                 $limit = in_array($exam->id, $this->expandedExams) ? null : 5;
-
                 $examSessions = \App\Models\ExamSession::with('user')
                     ->where('exam_id', $exam->id)
                     ->where('status', 'graded')
-                    ->orderBy('user_id')
-                    ->orderBy('attempt_number')
-                    ->when($limit, fn($q) => $q->limit($limit))
+                    ->orderBy('user_id')->orderBy('attempt_number')
+                    ->when($limit, fn ($q) => $q->limit($limit))
                     ->get();
             @endphp
 
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 mb-4 overflow-hidden">
-
-                {{-- Header ujian --}}
                 <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                     <div>
                         <h3 class="font-semibold text-gray-900 dark:text-white">{{ $exam->title }}</h3>
@@ -243,9 +241,7 @@
                                         <td class="px-4 py-2 font-medium text-gray-900 dark:text-white">
                                             {{ $session->user->name }}
                                         </td>
-                                        <td class="px-4 py-2 text-center text-gray-500">
-                                            ke-{{ $session->attempt_number }}
-                                        </td>
+                                        <td class="px-4 py-2 text-center text-gray-500">ke-{{ $session->attempt_number }}</td>
                                         <td class="px-4 py-2 text-center font-bold
                                             {{ $session->is_passed ? 'text-green-600' : 'text-red-500' }}">
                                             {{ $session->score }}%
@@ -265,7 +261,6 @@
                         </table>
                     </div>
 
-                    {{-- Tombol expand/collapse --}}
                     @if ($totalSessions > 5 && !in_array($exam->id, $this->expandedExams))
                         <div class="px-5 py-3 border-t border-gray-200 dark:border-gray-700 text-center">
                             <button wire:click="toggleExam({{ $exam->id }})"
@@ -281,11 +276,9 @@
                             </button>
                         </div>
                     @endif
-
                 @endif
             </div>
         @endforeach
-        {{-- ── END Tabel Hasil Ujian ──────────────────────────────────────── --}}
 
     @endif
 
