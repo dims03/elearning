@@ -18,8 +18,14 @@ Route::get('/admin/access', function (Request $request) {
 })->name('admin.shortcut');
 
 Route::get('/teacher/export/course/{courseId}', function ($courseId) {
-    $course = Course::where('id', $courseId)
-        ->where('teacher_id', Auth::id())
+    $user = Auth::user();
+
+    $course = Course::query()
+        ->where('id', $courseId)
+        ->when(
+            ! $user?->hasRole('admin'),
+            fn($query) => $query->where('teacher_id', $user?->id)
+        )
         ->firstOrFail();
 
     $filename = 'laporan-' . \Str::slug($course->title) . '-' . now()->format('Ymd') . '.xlsx';
