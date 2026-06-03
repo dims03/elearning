@@ -179,16 +179,6 @@
                 background: var(--line-strong);
             }
 
-            .admin-notice {
-                margin-top: 22px;
-                max-width: 540px;
-                padding: 14px 16px;
-                border: 1px solid var(--line-strong);
-                background: rgba(255, 255, 255, 0.46);
-                color: var(--muted);
-                line-height: 1.65;
-            }
-
             .hero-visual {
                 position: relative;
                 display: flex;
@@ -538,9 +528,6 @@
                     <h1>Teach Anything<br>Learn Anytime</h1>
                     <p>30k+ students trust us to learn faster, teach better, and keep every class in one clean platform.</p>
 
-                    @if (session('adminShortcutNotice'))
-                        <div class="admin-notice">{{ session('adminShortcutNotice') }}</div>
-                    @endif
                 </div>
 
                 <div class="hero-visual" aria-hidden="true">

@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Student\Pages\Auth\Login;
 use App\Filament\Student\Widgets\StudentStatsOverview;
+use App\Filament\Student\Widgets\StudentWelcome;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -42,6 +43,7 @@ class StudentPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Student/Widgets'), for: 'App\Filament\Student\Widgets')
             ->widgets([
+                StudentWelcome::class,
                 StudentStatsOverview::class,
                 // AccountWidget::class,
                 // FilamentInfoWidget::class,

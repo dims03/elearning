@@ -22,8 +22,6 @@ class RequireAdminShortcutForLogin
             return $next($request);
         }
 
-        return redirect()
-            ->route('landing')
-            ->with('adminShortcutNotice', 'Login admin hanya bisa dibuka lewat shortcut Ctrl + Shift + L.');
+        return redirect()->route('landing');
     }
 }
