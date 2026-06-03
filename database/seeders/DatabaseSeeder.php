@@ -16,6 +16,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            UserSeeder::class,
+            CategorySeeder::class,
+            CourseSeeder::class,
+            ExamSeeder::class,
+            EnrollmentSeeder::class,
+            ExamSessionSeeder::class,
+        ]);
         // Create roles
         Role::firstOrCreate(['name' => 'admin']);
         Role::firstOrCreate(['name' => 'teacher']);
@@ -27,7 +35,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'test@example.com'],
             [
                 'name' => 'Test User',
-                'password' => 'password',
+                'password' => bcrypt('password'),
             ]
         );
 
