@@ -213,4 +213,8 @@
     .fi-modal-close-overlay {
         @apply backdrop-blur-sm;
     }
+
+    .fi-logo {
+        @apply text-white dark:text-gray-300;
+    }
 }

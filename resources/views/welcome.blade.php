@@ -432,6 +432,7 @@
                 .site-header {
                     grid-template-columns: 1fr;
                     justify-items: start;
+                    gap: 14px;
                 }
 
                 .header-cta {
@@ -470,8 +471,18 @@
 
             @media (max-width: 680px) {
                 .page {
-                    width: min(100% - 20px, 1180px);
-                    padding-top: 10px;
+                    width: min(100% - 24px, 1180px);
+                    padding-top: 8px;
+                }
+
+                .site-header {
+                    padding: 8px 0 18px;
+                }
+
+                .brand {
+                    max-width: 9ch;
+                    font-size: clamp(1.8rem, 10vw, 2.4rem);
+                    line-height: 0.95;
                 }
 
                 .nav {
@@ -485,6 +496,37 @@
 
                 .hero {
                     padding-top: 32px;
+                    gap: 20px;
+                }
+
+                .hero-copy h1 {
+                    font-size: clamp(3.2rem, 17vw, 5rem);
+                    line-height: 0.92;
+                }
+
+                .hero-copy p {
+                    margin-top: 18px;
+                    font-size: 1.05rem;
+                    line-height: 1.6;
+                }
+
+                .hero-visual {
+                    min-height: 280px;
+                }
+
+                .hero-orb {
+                    inset: 12px 16px auto auto;
+                    width: 120px;
+                    height: 120px;
+                    filter: blur(8px);
+                }
+
+                .hero-illustration {
+                    height: 260px;
+                }
+
+                .hero-illustration img {
+                    object-position: center center;
                 }
 
                 .hero-actions,
@@ -492,8 +534,20 @@
                     flex-direction: column;
                 }
 
+                .header-cta {
+                    width: 100%;
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
                 .button {
                     width: 100%;
+                    min-height: 52px;
+                }
+
+                .header-cta .button + .button {
+                    border-left: 1px solid var(--line-strong);
+                    margin-top: -1px;
                 }
 
                 .stat-card,
@@ -502,6 +556,40 @@
                 .about-panel,
                 .about-highlight {
                     padding: 24px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .page {
+                    width: min(100% - 16px, 1180px);
+                }
+
+                .hero {
+                    padding-top: 24px;
+                }
+
+                .hero-copy h1 {
+                    font-size: clamp(2.8rem, 15vw, 4rem);
+                }
+
+                .hero-copy p {
+                    font-size: 1rem;
+                }
+
+                .hero-visual {
+                    min-height: 220px;
+                }
+
+                .hero-illustration {
+                    height: 220px;
+                }
+
+                .stat-card,
+                .course-card,
+                .portal-card,
+                .about-panel,
+                .about-highlight {
+                    padding: 20px;
                 }
             }
         </style>
