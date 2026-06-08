@@ -14,6 +14,8 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
+use Hammadzafar05\MobileBottomNav\MobileBottomNav;
+use Hammadzafar05\MobileBottomNav\MobileBottomNavItem;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -50,6 +52,11 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 // AccountWidget::class,
                 // FilamentInfoWidget::class,
+            ])
+            ->plugins([
+                MobileBottomNav::make()
+                    ->fromNavigation(5)
+                    ->moreButton(false),
             ])
             ->middleware([
                 EncryptCookies::class,

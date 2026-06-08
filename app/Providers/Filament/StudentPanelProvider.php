@@ -16,6 +16,7 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
+use Hammadzafar05\MobileBottomNav\MobileBottomNav;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -50,6 +51,11 @@ class StudentPanelProvider extends PanelProvider
                 StudentStatsOverview::class,
                 // AccountWidget::class,
                 // FilamentInfoWidget::class,
+            ])
+            ->plugins([
+                MobileBottomNav::make()
+                    ->fromNavigation(3)
+                    ->moreButton(false),
             ])
             ->middleware([
                 EncryptCookies::class,

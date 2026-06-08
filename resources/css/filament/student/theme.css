@@ -215,6 +215,68 @@
     }
 
     .fi-logo {
-        @apply text-white dark:text-gray-300;
+        @apply text-gray-500 dark:text-gray-300;
+    }
+
+    .learn-lesson-content {
+        overflow-wrap: anywhere;
+    }
+
+    .learn-lesson-content > * {
+        max-width: 100%;
+    }
+
+    .learn-lesson-content img,
+    .learn-lesson-content video,
+    .learn-lesson-content iframe,
+    .learn-lesson-content canvas,
+    .learn-lesson-content svg,
+    .learn-lesson-content table,
+    .learn-lesson-content pre,
+    .learn-lesson-content blockquote,
+    .learn-lesson-content input,
+    .learn-lesson-content textarea,
+    .learn-lesson-content select,
+    .learn-lesson-content button {
+        max-width: 100%;
+    }
+
+    .learn-lesson-content pre {
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .learn-lesson-content code,
+    .learn-lesson-content p,
+    .learn-lesson-content li,
+    .learn-lesson-content td,
+    .learn-lesson-content th {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .learn-lesson-content table {
+        display: block;
+        overflow-x: auto;
+        border-collapse: collapse;
+    }
+
+    .learn-lesson-content iframe,
+    .learn-lesson-content video,
+    .learn-lesson-content img {
+        display: block;
+        height: auto;
+    }
+
+    @media (max-width: 640px) {
+        .learn-lesson-content {
+            font-size: 0.95rem;
+        }
+
+        .learn-lesson-content pre,
+        .learn-lesson-content code {
+            font-size: 0.85rem;
+        }
     }
 }
