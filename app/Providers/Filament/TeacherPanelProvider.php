@@ -31,6 +31,7 @@ class TeacherPanelProvider extends PanelProvider
             ->favicon(asset('storage/asset/favicon.png'))
             ->viteTheme('resources/css/filament/teacher/theme.css')
             ->login(Login::class)
+            ->globalSearch(false)
             ->profile(EditProfile::class)
             ->spa(hasPrefetching: true)
             ->colors([

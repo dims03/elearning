@@ -33,6 +33,7 @@ class StudentPanelProvider extends PanelProvider
             ->favicon(asset('storage/asset/favicon.png'))
             ->viteTheme('resources/css/filament/student/theme.css')
             ->profile(EditProfile::class)
+            ->globalSearch(false)
             ->login(Login::class)
             ->spa(hasPrefetching: true)
             ->colors([
