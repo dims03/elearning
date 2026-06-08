@@ -1,4 +1,4 @@
-@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import "../../../../vendor/filament/filament/resources/css/theme.css";
 
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
@@ -60,8 +60,16 @@
 
     .fi-body {
         background:
-            radial-gradient(circle at top left, var(--admin-body-highlight) 0, rgba(255, 255, 255, 0) 30%),
-            linear-gradient(180deg, var(--admin-body-start) 0%, var(--admin-shell) 100%);
+            radial-gradient(
+                circle at top left,
+                var(--admin-body-highlight) 0,
+                rgba(255, 255, 255, 0) 30%
+            ),
+            linear-gradient(
+                180deg,
+                var(--admin-body-start) 0%,
+                var(--admin-shell) 100%
+            );
         color: var(--admin-text);
     }
 
@@ -132,7 +140,8 @@
     }
 
     .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:hover,
-    .fi-sidebar-item.fi-sidebar-item-has-url > .fi-sidebar-item-btn:focus-visible,
+    .fi-sidebar-item.fi-sidebar-item-has-url
+        > .fi-sidebar-item-btn:focus-visible,
     .fi-sidebar-group-dropdown-trigger-btn:hover,
     .fi-sidebar-group-dropdown-trigger-btn:focus-visible,
     .fi-sidebar-database-notifications-btn:hover,
@@ -141,14 +150,23 @@
     }
 
     .fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
-    .fi-sidebar-item.fi-sidebar-item-has-active-child-items > .fi-sidebar-item-btn {
-        background: linear-gradient(135deg, var(--admin-sidebar-active-from), var(--admin-sidebar-active-to));
+    .fi-sidebar-item.fi-sidebar-item-has-active-child-items
+        > .fi-sidebar-item-btn {
+        background: linear-gradient(
+            135deg,
+            var(--admin-sidebar-active-from),
+            var(--admin-sidebar-active-to)
+        );
     }
 
     .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-icon,
     .fi-sidebar-item.fi-active > .fi-sidebar-item-btn > .fi-sidebar-item-label,
-    .fi-sidebar-item.fi-sidebar-item-has-active-child-items > .fi-sidebar-item-btn > .fi-icon,
-    .fi-sidebar-item.fi-sidebar-item-has-active-child-items > .fi-sidebar-item-btn > .fi-sidebar-item-label {
+    .fi-sidebar-item.fi-sidebar-item-has-active-child-items
+        > .fi-sidebar-item-btn
+        > .fi-icon,
+    .fi-sidebar-item.fi-sidebar-item-has-active-child-items
+        > .fi-sidebar-item-btn
+        > .fi-sidebar-item-label {
         color: #ffffff !important;
     }
 
@@ -191,4 +209,8 @@
     .fi-badge {
         border-radius: 999px;
     }
+}
+
+.fi-modal-close-overlay {
+    @apply backdrop-blur-sm;
 }
