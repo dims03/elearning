@@ -2,9 +2,13 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Models\User;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -51,7 +55,26 @@ class UsersTable
                     ->label('Filter Role'),
             ])
             ->recordActions([
-                EditAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    Action::make('reset_password')
+                        ->color('danger')
+                        ->icon('heroicon-o-lock-closed')
+                        ->label('Reset Password')
+                        ->requiresConfirmation()
+                        ->modalHeading('Reset password user?')
+                        ->modalDescription('Password user akan direset ke default: password')
+                        ->action(function (User $record): void {
+                            $record->update([
+                                'password' => 'password',
+                            ]);
+
+                            Notification::make()
+                                ->title("Password untuk {$record->name} berhasil direset.")
+                                ->success()
+                                ->send();
+                        }),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

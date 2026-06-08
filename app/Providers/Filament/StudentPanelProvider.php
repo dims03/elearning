@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Student\Pages\Auth\EditProfile;
 use App\Filament\Student\Pages\Auth\Login;
 use App\Filament\Student\Widgets\StudentStatsOverview;
 use App\Filament\Student\Widgets\StudentWelcome;
@@ -31,6 +32,7 @@ class StudentPanelProvider extends PanelProvider
             ->path('student')
             ->favicon(asset('storage/asset/favicon.png'))
             ->viteTheme('resources/css/filament/student/theme.css')
+            ->profile(EditProfile::class)
             ->login(Login::class)
             ->spa(hasPrefetching: true)
             ->colors([

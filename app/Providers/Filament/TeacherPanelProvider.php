@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Teacher\Pages\Auth\EditProfile;
 use App\Filament\Teacher\Pages\Auth\Login;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -30,6 +31,7 @@ class TeacherPanelProvider extends PanelProvider
             ->favicon(asset('storage/asset/favicon.png'))
             ->viteTheme('resources/css/filament/teacher/theme.css')
             ->login(Login::class)
+            ->profile(EditProfile::class)
             ->spa(hasPrefetching: true)
             ->colors([
                 'primary' => Color::Yellow,
