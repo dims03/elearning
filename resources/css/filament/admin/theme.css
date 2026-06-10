@@ -216,5 +216,113 @@
 }
 
 .fi-logo {
-        @apply text-gray-500 dark:text-gray-300;
-    }
+    @apply text-gray-500 dark:text-gray-300;
+}
+
+.fi-topbar-theme-toggle {
+    position: relative;
+    align-items: center;
+    width: 4.2rem;
+    height: 2.3rem;
+    margin-inline-end: 0.55rem;
+    padding: 0.16rem;
+    border: none;
+    border-radius: 999px;
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(
+        145deg,
+        rgba(241, 233, 222, 0.98),
+        rgba(221, 210, 194, 0.96)
+    );
+    box-shadow:
+        inset 0.34rem 0.34rem 0.72rem rgba(124, 102, 71, 0.22),
+        inset -0.32rem -0.32rem 0.75rem rgba(255, 255, 255, 0.62),
+        0.7rem 0.9rem 1.5rem rgba(108, 88, 60, 0.18);
+    transition:
+        background 220ms ease,
+        box-shadow 220ms ease,
+        transform 180ms ease;
+    display: inline-flex;
+}
+
+.fi-topbar-theme-toggle:hover,
+.fi-topbar-theme-toggle:focus-visible {
+    outline: none;
+}
+
+.fi-topbar-theme-toggle-track {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+        145deg,
+        rgba(235, 227, 216, 0.98),
+        rgba(216, 205, 191, 0.96)
+    );
+    box-shadow:
+        inset 0.46rem 0.46rem 0.88rem rgba(122, 103, 73, 0.24),
+        inset -0.28rem -0.28rem 0.6rem rgba(255, 255, 255, 0.54);
+}
+
+.fi-topbar-theme-toggle-thumb {
+    position: absolute;
+    top: 0.18rem;
+    left: calc(100% - 2.12rem);
+    width: 1.94rem;
+    height: 1.94rem;
+    border-radius: 999px;
+    border: 1px solid rgba(171, 153, 129, 0.38);
+    background: linear-gradient(145deg, #f6f0e7, #ddd1c2);
+    box-shadow:
+        0.22rem 0.22rem 0.3rem rgba(255, 255, 255, 0.58) inset,
+        -0.18rem -0.18rem 0.24rem rgba(162, 145, 120, 0.22) inset,
+        0.48rem 0.62rem 1rem rgba(70, 54, 34, 0.42),
+        -0.12rem -0.12rem 0.24rem rgba(255, 255, 255, 0.38);
+    transition:
+        left 220ms ease,
+        background 220ms ease,
+        box-shadow 220ms ease,
+        transform 180ms ease;
+}
+
+.fi-topbar-theme-toggle:hover .fi-topbar-theme-toggle-thumb,
+.fi-topbar-theme-toggle:focus-visible .fi-topbar-theme-toggle-thumb {
+    transform: none;
+}
+
+.fi-topbar-theme-toggle.is-dark {
+    background: linear-gradient(
+        145deg,
+        rgba(10, 14, 22, 0.98),
+        rgba(29, 37, 54, 0.9)
+    );
+    box-shadow:
+        inset 0.38rem 0.38rem 0.9rem rgba(0, 0, 0, 0.56),
+        inset -0.22rem -0.22rem 0.45rem rgba(90, 110, 151, 0.08),
+        0.75rem 0.95rem 1.6rem rgba(3, 5, 10, 0.36);
+}
+
+.fi-topbar-theme-toggle.is-dark .fi-topbar-theme-toggle-track {
+    background: linear-gradient(
+        145deg,
+        rgba(11, 15, 24, 0.98),
+        rgba(23, 30, 44, 0.94)
+    );
+    box-shadow:
+        inset 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.56),
+        inset -0.25rem -0.25rem 0.55rem rgba(80, 100, 145, 0.08);
+}
+
+.fi-topbar-theme-toggle.is-dark .fi-topbar-theme-toggle-thumb {
+    left: 0.18rem;
+    background: linear-gradient(145deg, #334159, #243043);
+    box-shadow:
+        0.15rem 0.15rem 0.22rem rgba(88, 109, 148, 0.12) inset,
+        -0.2rem -0.2rem 0.25rem rgba(12, 16, 24, 0.3) inset,
+        0.5rem 0.65rem 1.1rem rgba(0, 0, 0, 0.52);
+}
+
+.fi-theme-switcher {
+    display: none !important;
+}

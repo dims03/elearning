@@ -12,6 +12,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Hammadzafar05\MobileBottomNav\MobileBottomNav;
@@ -58,6 +59,10 @@ class AdminPanelProvider extends PanelProvider
                     ->fromNavigation(5)
                     ->moreButton(false),
             ])
+             ->renderHook(
+                PanelsRenderHook::USER_MENU_BEFORE,
+                fn () => view('filament.admin.components.topbar-theme-toggle'),
+            )
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

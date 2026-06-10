@@ -14,6 +14,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Hammadzafar05\MobileBottomNav\MobileBottomNav;
@@ -52,6 +53,10 @@ class StudentPanelProvider extends PanelProvider
                 // AccountWidget::class,
                 // FilamentInfoWidget::class,
             ])
+            ->renderHook(
+                PanelsRenderHook::USER_MENU_BEFORE,
+                fn () => view('filament.student.components.topbar-theme-toggle'),
+            )
             ->plugins([
                 MobileBottomNav::make()
                     ->fromNavigation(3)
