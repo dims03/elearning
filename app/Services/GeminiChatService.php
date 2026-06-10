@@ -45,7 +45,7 @@ class GeminiChatService
             'contents'         => $messages,
             'generationConfig' => [
                 'temperature'     => 0.3,
-                'maxOutputTokens' => 1024,
+                'maxOutputTokens' => 2048,
             ],
         ];
 
@@ -57,9 +57,20 @@ class GeminiChatService
 
                 if ($response->successful()) {
                     $data = $response->json();
+                    $candidate = $data['candidates'][0] ?? null;
+                    $answer = $this->extractTextFromCandidate($candidate);
 
-                    return $data['candidates'][0]['content']['parts'][0]['text']
-                        ?? 'Maaf, tidak ada respons dari AI.';
+                    Log::info('Gemini response received.', [
+                        'model' => $model,
+                        'finish_reason' => $candidate['finishReason'] ?? null,
+                        'parts_count' => count($candidate['content']['parts'] ?? []),
+                    ]);
+
+                    if ($answer !== '') {
+                        return $answer;
+                    }
+
+                    return 'Maaf, tidak ada respons dari AI.';
                 }
 
                 $lastError = [
@@ -142,6 +153,27 @@ class GeminiChatService
         return 'Maaf, terjadi kesalahan saat menghubungi AI. Silakan coba lagi.';
     }
 
+    private function extractTextFromCandidate(?array $candidate): string
+    {
+        if (! is_array($candidate)) {
+            return '';
+        }
+
+        $parts = $candidate['content']['parts'] ?? [];
+
+        if (! is_array($parts)) {
+            return '';
+        }
+
+        $texts = collect($parts)
+            ->map(fn ($part) => is_array($part) ? trim((string) ($part['text'] ?? '')) : '')
+            ->filter()
+            ->values()
+            ->all();
+
+        return trim(implode("\n", $texts));
+    }
+
     private function buildSystemPrompt(array $data): string
     {
         $summary      = json_encode($data['summary'],          JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -159,6 +191,14 @@ Jawab SELALU dalam Bahasa Indonesia yang ramah, jelas, dan informatif.
 Gunakan emoji yang relevan untuk membuat jawaban lebih menarik.
 Jika ada data konkret, tampilkan dalam format yang mudah dibaca.
 Berikan insight dan rekomendasi berdasarkan data yang ada.
+Jika pengguna meminta saran, rekomendasi, solusi, tindak lanjut, atau cara meningkatkan sesuatu, berikan jawaban yang konkret dan bisa dieksekusi.
+Untuk pertanyaan rekomendasi, jangan berhenti di ringkasan angka. Wajib berikan:
+1. masalah utamanya,
+2. kemungkinan penyebab berdasarkan data,
+3. minimal 3 langkah saran yang spesifik,
+4. prioritas tindakan mana yang paling penting lebih dulu.
+Jika datanya mendukung, sebutkan nama ujian, kursus, atau kelompok siswa yang perlu difokuskan.
+Hindari jawaban yang menggantung atau berhenti di tengah kalimat.
 
 === DATA SAAT INI ===
 
@@ -203,6 +243,10 @@ PROMPT;
         ];
 
         foreach ($history as $msg) {
+            if (! isset($msg['role'], $msg['content']) || trim((string) $msg['content']) === '') {
+                continue;
+            }
+
             $messages[] = [
                 'role'  => $msg['role'] === 'user' ? 'user' : 'model',
                 'parts' => [['text' => $msg['content']]],
