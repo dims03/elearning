@@ -17,6 +17,7 @@
             <p id="timer"
                class="font-mono font-bold text-xl tabular-nums"
                data-seconds="{{ $remainingSeconds }}"
+               data-session-id="{{ $session->id }}"
                wire:ignore>
                 {{ gmdate('H:i:s', $remainingSeconds) }}
             </p>
@@ -140,18 +141,47 @@
 
 {{-- Timer JavaScript --}}
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+window.__takeExamTimer ??= {
+    intervalId: null,
+    sessionId: null,
+};
+
+function initTakeExamTimer() {
     const timerEl = document.getElementById('timer');
-    if (!timerEl) return;
+
+    if (! timerEl) {
+        if (window.__takeExamTimer.intervalId) {
+            clearInterval(window.__takeExamTimer.intervalId);
+            window.__takeExamTimer.intervalId = null;
+            window.__takeExamTimer.sessionId = null;
+        }
+
+        return;
+    }
+
+    const sessionId = timerEl.dataset.sessionId;
+
+    if (window.__takeExamTimer.intervalId && window.__takeExamTimer.sessionId === sessionId) {
+        return;
+    }
+
+    if (window.__takeExamTimer.intervalId) {
+        clearInterval(window.__takeExamTimer.intervalId);
+    }
+
+    window.__takeExamTimer.sessionId = sessionId;
 
     let seconds = parseInt(timerEl.dataset.seconds, 10);
 
-    function pad(n) { return String(n).padStart(2, '0'); }
+    function pad(n) {
+        return String(n).padStart(2, '0');
+    }
 
     function format(s) {
         const h = Math.floor(s / 3600);
         const m = Math.floor((s % 3600) / 60);
         const sec = s % 60;
+
         return h > 0
             ? `${pad(h)}:${pad(m)}:${pad(sec)}`
             : `${pad(m)}:${pad(sec)}`;
@@ -170,18 +200,33 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    const interval = setInterval(function () {
+    timerEl.textContent = format(seconds);
+    updateColor(seconds);
+
+    window.__takeExamTimer.intervalId = setInterval(() => {
         seconds--;
+
         if (seconds <= 0) {
-            clearInterval(interval);
+            clearInterval(window.__takeExamTimer.intervalId);
+            window.__takeExamTimer.intervalId = null;
             timerEl.textContent = '00:00';
-            // Auto submit via Livewire
             @this.timeUp();
             return;
         }
+
         timerEl.textContent = format(seconds);
         updateColor(seconds);
     }, 1000);
+}
+
+document.addEventListener('DOMContentLoaded', initTakeExamTimer);
+document.addEventListener('livewire:navigated', initTakeExamTimer);
+document.addEventListener('livewire:navigating', () => {
+    if (window.__takeExamTimer?.intervalId) {
+        clearInterval(window.__takeExamTimer.intervalId);
+        window.__takeExamTimer.intervalId = null;
+        window.__takeExamTimer.sessionId = null;
+    }
 });
 </script>
 
