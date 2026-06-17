@@ -9,7 +9,9 @@ use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Enums\Size;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class MyCourses extends Page
@@ -33,9 +35,9 @@ class MyCourses extends Page
             ->latest('enrolled_at')
             ->get();
 
-        $availableCourses = Course::with(['teacher', 'category'])
-            ->where('status', 'published')
-            ->whereNotIn('id', $enrollments->pluck('course_id'))
+        $availableCourses = $this->getAvailableCoursesQuery()
+            ->with(['teacher', 'category'])
+            ->withCount('enrollments')
             ->latest()
             ->get();
 
@@ -47,21 +49,36 @@ class MyCourses extends Page
 
     public function enrollAction(): Action
     {
+        $availableCoursesCount = fn (): int => $this->getAvailableCoursesQuery()->count();
+
         return Action::make('enroll')
             ->label('Enroll Course')
             ->icon('heroicon-o-plus-circle')
             ->color('success')
-            ->modalHeading('Pilih Kursus untuk Diikuti')
+            ->size(Size::Large)
+            ->tooltip(fn (): string => $availableCoursesCount() > 0
+                ? 'Cari kursus baru yang belum kamu ikuti'
+                : 'Semua kursus yang tersedia sudah kamu ikuti')
+            ->extraAttributes(['class' => 'student-enroll-action'])
+            ->disabled(fn (): bool => $availableCoursesCount() === 0)
+            ->slideOver()
+            ->stickyModalHeader()
+            ->stickyModalFooter()
+            ->modalIcon('heroicon-o-sparkles')
+            ->modalHeading('Pilih kursus berikutnya')
+            ->modalDescription(fn (): string => $availableCoursesCount() > 0
+                ? "Ada {$availableCoursesCount()} kursus yang siap kamu ikuti."
+                : 'Belum ada kursus lain yang bisa kamu enroll saat ini.')
             ->modalWidth('2xl')
+            ->modalSubmitActionLabel('Enroll Sekarang')
+            ->modalCancelActionLabel('Nanti Dulu')
             ->form([
                 Forms\Components\Select::make('course_id')
                     ->label('Pilih Kursus')
                     ->options(function () {
-                        $enrolled = CourseEnrollment::where('user_id', Auth::id())
-                            ->pluck('course_id');
-
-                        return Course::where('status', 'published')
-                            ->whereNotIn('id', $enrolled)
+                        return $this->getAvailableCoursesQuery()
+                            ->with('teacher:id,name')
+                            ->orderBy('title')
                             ->get()
                             ->mapWithKeys(fn ($c) =>
                                 [$c->id => $c->title . ' — ' . ($c->teacher->name ?? '')]
@@ -69,7 +86,8 @@ class MyCourses extends Page
                     })
                     ->searchable()
                     ->required()
-                    ->placeholder('Cari kursus...'),
+                    ->placeholder('Cari kursus...')
+                    ->helperText('Pilih satu kursus untuk langsung masuk ke daftar belajar kamu.'),
             ])
             ->action(function (array $data) {
                 $already = CourseEnrollment::where('user_id', Auth::id())
@@ -96,6 +114,18 @@ class MyCourses extends Page
                     ->success()
                     ->send();
             });
+    }
+
+    protected function getAvailableCoursesQuery(): Builder
+    {
+        return Course::query()
+            ->where('status', 'published')
+            ->whereNotIn(
+                'id',
+                CourseEnrollment::query()
+                    ->where('user_id', Auth::id())
+                    ->select('course_id'),
+            );
     }
 
     protected function getHeaderActions(): array
