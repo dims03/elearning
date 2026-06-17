@@ -35,20 +35,23 @@ class MyExam extends Page
                     ->orderBy('attempt_number')
                     ->get();
 
-                $lastSession   = $sessions->last();
-                $attemptCount  = $sessions->count();
-                $canAttempt    = $exam->canAttemptBy(auth()->user());
-                $bestScore     = $sessions->where('status', 'graded')->max('score');
-                $hasPassed     = $sessions->where('is_passed', true)->isNotEmpty();
-                $inProgress    = $sessions->where('status', 'in_progress')->first();
+                $lastSession    = $sessions->last();
+                $gradedSessions = $sessions->where('status', 'graded');
+                $resultSession  = $gradedSessions->sortByDesc('attempt_number')->first();
+                $attemptCount   = $sessions->count();
+                $canAttempt     = $exam->canAttemptBy(auth()->user());
+                $latestScore    = $resultSession?->score;
+                $hasPassed      = (bool) $resultSession?->is_passed;
+                $inProgress     = $sessions->where('status', 'in_progress')->first();
 
                 return [
                     'exam'          => $exam,
                     'sessions'      => $sessions,
                     'lastSession'   => $lastSession,
+                    'resultSession' => $resultSession,
                     'attemptCount'  => $attemptCount,
                     'canAttempt'    => $canAttempt,
-                    'bestScore'     => $bestScore,
+                    'latestScore'   => $latestScore,
                     'hasPassed'     => $hasPassed,
                     'inProgress'    => $inProgress,
                 ];

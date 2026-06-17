@@ -27,6 +27,7 @@
             {{-- Header kursus --}}
             <div class="border-b border-gray-200 p-4 dark:border-gray-700">
                 <a href="{{ \App\Filament\Student\Pages\MyCourses::getUrl() }}"
+                   wire:navigate.hover
                    class="mb-2 flex items-center gap-1 text-xs text-blue-500 hover:underline">
                     ← Kembali ke Kursus Saya
                 </a>

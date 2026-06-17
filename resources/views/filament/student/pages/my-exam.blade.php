@@ -13,9 +13,10 @@
                 $exam       = $item['exam'];
                 $canAttempt = $item['canAttempt'];
                 $hasPassed  = $item['hasPassed'];
-                $bestScore  = $item['bestScore'];
+                $latestScore = $item['latestScore'];
                 $inProgress = $item['inProgress'];
                 $attempts   = $item['attemptCount'];
+                $resultSession = $item['resultSession'];
             @endphp
 
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
@@ -53,11 +54,11 @@
                         {{-- Status & best score --}}
                         @if($hasPassed)
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full font-medium">
-                                <x-heroicon-s-check-circle class="w-4 h-4"/> Lulus — Nilai terbaik: {{ $bestScore }}%
+                                <x-heroicon-s-check-circle class="w-4 h-4"/> Lulus — Attempt {{ $resultSession->attempt_number }}: {{ $latestScore }}%
                             </span>
-                        @elseif($bestScore !== null)
+                        @elseif($latestScore !== null)
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 text-red-700 text-sm rounded-full font-medium">
-                                <x-heroicon-s-x-circle class="w-4 h-4"/> Belum lulus — Nilai terbaik: {{ $bestScore }}%
+                                <x-heroicon-s-x-circle class="w-4 h-4"/> Belum lulus — Attempt {{ $resultSession->attempt_number }}: {{ $latestScore }}%
                             </span>
                         @endif
 
@@ -76,6 +77,7 @@
                             {{-- Lanjutkan ujian yang belum selesai --}}
                             @php $examUrl = \App\Filament\Student\Pages\TakeExam::getUrl(['exam' => $exam->id]); @endphp
                             <a href="{{ $examUrl }}"
+                               wire:navigate.hover
                                class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-lg">
                                 <x-heroicon-o-play class="w-4 h-4"/>
                                 Lanjutkan
@@ -83,6 +85,7 @@
                         @elseif($canAttempt)
                             @php $examUrl = \App\Filament\Student\Pages\TakeExam::getUrl(['exam' => $exam->id]); @endphp
                             <a href="{{ $examUrl }}"
+                               wire:navigate.hover
                                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg">
                                 <x-heroicon-o-pencil-square class="w-4 h-4"/>
                                 {{ $attempts > 0 ? 'Coba Lagi' : 'Mulai Ujian' }}
@@ -95,9 +98,10 @@
                         @endif
 
                         {{-- Lihat hasil --}}
-                        @if($item['lastSession'] && $item['lastSession']->status === 'graded')
-                            @php $resultUrl = \App\Filament\Student\Pages\ExamResult::getUrl(['session' => $item['lastSession']->id]); @endphp
+                        @if($item['resultSession'])
+                            @php $resultUrl = \App\Filament\Student\Pages\ExamResult::getUrl(['session' => $item['resultSession']->id]); @endphp
                             <a href="{{ $resultUrl }}"
+                               wire:navigate.hover
                                class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg">
                                 <x-heroicon-o-chart-bar class="w-4 h-4"/>
                                 Lihat Hasil

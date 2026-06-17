@@ -94,6 +94,7 @@
 
                         {{-- Action button --}}
                         <a href="{{ \App\Filament\Student\Pages\Learn::getUrl(['course' => $course->id]) }}"
+                            wire:navigate.hover
                             class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">
                             <x-heroicon-o-play-circle class="w-4 h-4" />
                             {{ $enrollment->progress_percent > 0 ? 'Continue Learning' : 'Start Learning' }}

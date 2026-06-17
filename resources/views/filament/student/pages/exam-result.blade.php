@@ -36,6 +36,64 @@
         </div>
     </div>
 
+    @if($attemptHistory && $attemptHistory->isNotEmpty())
+        <div class="mb-8">
+            <div class="flex items-center justify-between gap-3 mb-4">
+                <h3 class="font-semibold text-gray-900 dark:text-white">Riwayat Attempt</h3>
+                <span class="text-xs text-gray-400">{{ $attemptHistory->count() }} hasil tersedia</span>
+            </div>
+
+            <div class="grid gap-3 md:grid-cols-2">
+                @foreach($attemptHistory as $attempt)
+                    @php
+                        $isCurrentAttempt = $attempt->id === $currentSession->id;
+                        $attemptUrl = \App\Filament\Student\Pages\ExamResult::getUrl(['session' => $attempt->id]);
+                    @endphp
+
+                    <a href="{{ $attemptUrl }}"
+                       wire:navigate.hover.preserve-scroll
+                       class="block rounded-xl border p-4 transition
+                        {{ $isCurrentAttempt
+                            ? 'border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-900/20'
+                            : 'border-gray-200 bg-white hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-600' }}">
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900 dark:text-white">
+                                    Attempt {{ $attempt->attempt_number }}
+                                </p>
+                                <p class="text-xs text-gray-400 mt-1">
+                                    {{ $attempt->submitted_at?->format('d M Y H:i') ?? 'Belum submit' }}
+                                </p>
+                            </div>
+
+                            <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium
+                                {{ $attempt->is_passed
+                                    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+                                    : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300' }}">
+                                {{ $attempt->is_passed ? 'Lulus' : 'Belum lulus' }}
+                            </span>
+                        </div>
+
+                        <div class="mt-4 flex items-end justify-between gap-3">
+                            <div>
+                                <p class="text-xs text-gray-400">Nilai</p>
+                                <p class="text-2xl font-bold {{ $attempt->is_passed ? 'text-green-600' : 'text-red-500' }}">
+                                    {{ $attempt->score }}%
+                                </p>
+                            </div>
+
+                            @if($isCurrentAttempt)
+                                <span class="text-xs font-medium text-blue-600 dark:text-blue-300">Sedang dibuka</span>
+                            @else
+                                <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Lihat hasil</span>
+                            @endif
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     {{-- Review jawaban --}}
     @if($exam->show_result_immediately)
         <h3 class="font-semibold text-gray-900 dark:text-white mb-4">Review Jawaban</h3>
@@ -116,10 +174,12 @@
     {{-- Tombol navigasi --}}
     <div class="flex gap-3 mt-8 justify-center">
         <a href="{{ \App\Filament\Student\Pages\MyExam::getUrl() }}"
+           wire:navigate.hover
            class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg text-sm">
             ← Kembali ke Ujian
         </a>
         <a href="{{ \App\Filament\Student\Pages\MyCourses::getUrl() }}"
+           wire:navigate.hover
            class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm">
             Ke Kursus Saya
         </a>
