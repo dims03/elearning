@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'fonnte' => [
+        'token' => env('FONNTE_TOKEN'),
+        'url' => env('FONNTE_URL', 'https://api.fonnte.com/send'),
+        'typing_url' => env('FONNTE_TYPING_URL', 'https://api.fonnte.com/typing'),
+        'country_code' => env('FONNTE_COUNTRY_CODE', '62'),
+        'default_typing_duration' => (int) env('FONNTE_DEFAULT_TYPING_DURATION', 3),
+    ],
+
 ];
