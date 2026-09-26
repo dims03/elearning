@@ -438,6 +438,19 @@
             opacity: var(--admin-illustration-opacity);
         }
 
+        #teacher-lottie-animation {
+            width: min(100%, 400px);
+            height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #teacher-lottie-animation svg {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
         @media (max-width: 980px) {
             .admin-login-body {
                 height: auto;
@@ -543,7 +556,7 @@
             </div>
 
             <div class="admin-login-illustration" aria-hidden="true">
-                <img src="{{ asset('storage/asset/teacher.png') }}" alt="">
+                <div id="teacher-lottie-animation"></div>
             </div>
         </section>
     </div>
@@ -552,8 +565,17 @@
 </div>
 
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            lottie.loadAnimation({
+                container: document.getElementById('teacher-lottie-animation'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: @json(asset('storage/asset/teacher_login.json'))
+            });
+
             const toggle = document.querySelector('[data-theme-toggle]');
 
             if (! toggle) {

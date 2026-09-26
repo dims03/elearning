@@ -57,6 +57,10 @@ class StudentPanelProvider extends PanelProvider
                 PanelsRenderHook::USER_MENU_BEFORE,
                 fn () => view('filament.student.components.topbar-theme-toggle'),
             )
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn () => '<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>',
+            )
             ->plugins([
                 MobileBottomNav::make()
                     ->fromNavigation(3)

@@ -126,8 +126,7 @@
             }
 
             .admin-dashboard-figure {
-                max-height: 290px;
-                object-fit: contain;
+                height: 290px;
                 filter: drop-shadow(0 26px 36px rgba(12, 14, 30, 0.2));
             }
 
@@ -191,11 +190,14 @@
 
                 <div class="relative flex items-end justify-center">
                     <div class="admin-dashboard-figure-wrap w-full">
-                        <img
-                            src="{{ asset('storage/asset/welcome.png') }}"
-                            alt="Welcome illustration"
+                        <div
+                            wire:ignore
+                            data-school-animation
+                            data-src="{{ asset('storage/asset/school.json') }}"
+                            role="img"
+                            aria-label="Animasi sekolah"
                             class="admin-dashboard-figure w-full max-w-sm"
-                        >
+                        ></div>
                     </div>
                 </div>
             </div>
@@ -270,3 +272,22 @@
         </section>
     </div>
 </x-filament-panels::page>
+
+@assets
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+@endassets
+
+@script
+    <script>
+        const container = $wire.$el.querySelector('[data-school-animation]');
+        const animation = window.lottie.loadAnimation({
+            container,
+            renderer: 'svg',
+            loop: true,
+            autoplay: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+            path: container.dataset.src,
+        });
+
+        document.addEventListener('livewire:navigating', () => animation.destroy(), { once: true });
+    </script>
+@endscript

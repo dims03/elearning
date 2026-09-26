@@ -35,12 +35,41 @@
                 </div>
             </div>
 
-            <div class="flex min-h-[150px] items-center justify-center p-2 lg:min-h-[170px]">
-                <img
-                    src="{{ asset('storage/asset/student-welcome.png') }}"
-                    alt="Student welcome illustration"
-                    class="w-full max-w-[220px] object-contain drop-shadow-[0_18px_26px_rgba(47,43,39,0.16)] lg:max-w-[250px]"
-                >
+            <div
+                wire:ignore
+                class="flex min-h-[150px] items-center justify-center p-2 lg:min-h-[170px]"
+            >
+                <div
+                    id="student-dashboard-lottie"
+                    style="width: 100%; max-width: 250px; height: 170px;"
+                    x-init="
+                        (() => {
+                            let anim = null;
+                            const loadAnim = () => {
+                                if (typeof lottie !== 'undefined') {
+                                    if (anim) anim.destroy();
+                                    $el.innerHTML = '';
+                                    anim = lottie.loadAnimation({
+                                        container: $el,
+                                        renderer: 'svg',
+                                        loop: true,
+                                        autoplay: true,
+                                        path: '{{ asset('storage/asset/student_dashboard.json') }}'
+                                    });
+                                } else {
+                                    if (!document.getElementById('lottie-web-script')) {
+                                        var s = document.createElement('script');
+                                        s.id = 'lottie-web-script';
+                                        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js';
+                                        document.head.appendChild(s);
+                                    }
+                                    setTimeout(loadAnim, 100);
+                                }
+                            };
+                            loadAnim();
+                        })()
+                    "
+                ></div>
             </div>
         </div>
     </section>

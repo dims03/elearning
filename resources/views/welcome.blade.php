@@ -216,6 +216,19 @@
                 transform: scale(1.01);
             }
 
+            #lottie-animation {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #lottie-animation svg {
+                width: 100% !important;
+                height: 100% !important;
+            }
+
             .section {
                 padding-top: 18px;
             }
@@ -621,11 +634,24 @@
                 <div class="hero-visual" aria-hidden="true">
                     <div class="hero-orb"></div>
                     <div class="hero-illustration">
-                        <img src="{{ asset('storage/asset/image.webp') }}" alt="E-learning illustration">
+                        <div id="lottie-animation"></div>
                     </div>
                 </div>
             </section>
         </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                lottie.loadAnimation({
+                    container: document.getElementById('lottie-animation'),
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: @json(asset('storage/asset/landing_page.json'))
+                });
+            });
+        </script>
 
         <div class="shortcut-toast" id="shortcut-toast" aria-live="polite">Opening admin login...</div>
 

@@ -2,10 +2,8 @@
     <section
         class="relative overflow-hidden rounded-[1.75rem] border border-[var(--admin-border)] bg-[linear-gradient(135deg,#fffaf3_0%,#f6ecdd_52%,#efe4d7_100%)] shadow-[var(--admin-card-shadow)] dark:bg-[linear-gradient(135deg,#1d2438_0%,#1b2031_52%,#151a28_100%)]"
     >
-
         <div class="relative z-10 grid items-center gap-4 p-5 sm:p-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(220px,0.65fr)] lg:gap-6 lg:p-6">
             <div class="max-w-3xl">
-
                 <p class="text-sm font-medium text-[var(--admin-muted)]">{{ $todayLabel }}</p>
 
                 <h2 class="mt-2 text-[clamp(1.75rem,3vw,2.45rem)] font-bold leading-[1.12] text-[var(--admin-text)]">
@@ -37,12 +35,41 @@
                 </div>
             </div>
 
-            <div class="flex min-h-[150px] items-center justify-center p-2 lg:min-h-[170px]">
-                <img
-                    src="{{ asset('storage/asset/teacher-welcome.png') }}"
-                    alt="Teacher welcome illustration"
-                    class="w-full max-w-[220px] object-contain drop-shadow-[0_18px_26px_rgba(47,43,39,0.16)] lg:max-w-[250px]"
-                >
+            <div
+                wire:ignore
+                class="flex min-h-[150px] items-center justify-center p-2 lg:min-h-[170px]"
+            >
+                <div
+                    id="teacher-dashboard-lottie"
+                    style="width: 100%; max-width: 250px; height: 170px;"
+                    x-init="
+                        (() => {
+                            let anim = null;
+                            const loadAnim = () => {
+                                if (typeof lottie !== 'undefined') {
+                                    if (anim) anim.destroy();
+                                    $el.innerHTML = '';
+                                    anim = lottie.loadAnimation({
+                                        container: $el,
+                                        renderer: 'svg',
+                                        loop: true,
+                                        autoplay: true,
+                                        path: '{{ asset('storage/asset/teacher_dashboard.json') }}'
+                                    });
+                                } else {
+                                    if (!document.getElementById('lottie-web-script')) {
+                                        var s = document.createElement('script');
+                                        s.id = 'lottie-web-script';
+                                        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js';
+                                        document.head.appendChild(s);
+                                    }
+                                    setTimeout(loadAnim, 100);
+                                }
+                            };
+                            loadAnim();
+                        })()
+                    "
+                ></div>
             </div>
         </div>
     </section>

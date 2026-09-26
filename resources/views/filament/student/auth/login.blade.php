@@ -438,6 +438,19 @@
             opacity: var(--admin-illustration-opacity);
         }
 
+        #student-lottie-animation {
+            width: min(100%, 400px);
+            height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #student-lottie-animation svg {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
         @media (max-width: 980px) {
             .admin-login-body {
                 height: auto;
@@ -516,14 +529,19 @@
                     <button type="button" class="admin-login-home-btn" onclick="window.location.href='/'">
                         <span class="admin-login-home-btn-icon" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M10.25 6.75L5 12M5 12L10.25 17.25M5 12H19" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M10.25 6.75L5 12M5 12L10.25 17.25M5 12H19" stroke="currentColor"
+                                    stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </span>
                         <span>Back to Home</span>
                     </button>
-                    <button type="button" class="admin-login-theme-toggle" data-theme-toggle aria-label="Toggle color theme">
+                    <button type="button" class="admin-login-theme-toggle" data-theme-toggle
+                        aria-label="Toggle color theme">
                         <svg data-theme-icon="sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path d="M12 3V5.5M12 18.5V21M5.64 5.64L7.4 7.4M16.6 16.6L18.36 18.36M3 12H5.5M18.5 12H21M5.64 18.36L7.4 16.6M16.6 7.4L18.36 5.64M15.5 12A3.5 3.5 0 1 1 8.5 12A3.5 3.5 0 0 1 15.5 12Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M12 3V5.5M12 18.5V21M5.64 5.64L7.4 7.4M16.6 16.6L18.36 18.36M3 12H5.5M18.5 12H21M5.64 18.36L7.4 16.6M16.6 7.4L18.36 5.64M15.5 12A3.5 3.5 0 1 1 8.5 12A3.5 3.5 0 0 1 15.5 12Z"
+                                stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                                stroke-linejoin="round" />
                         </svg>
                     </button>
                 </div>
@@ -543,7 +561,7 @@
             </div>
 
             <div class="admin-login-illustration" aria-hidden="true">
-                <img src="{{ asset('storage/asset/student.png') }}" alt="">
+                <div id="student-lottie-animation"></div>
             </div>
         </section>
     </div>
@@ -552,11 +570,20 @@
 </div>
 
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
+            lottie.loadAnimation({
+                container: document.getElementById('student-lottie-animation'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: @json(asset('storage/asset/student_login.json'))
+            });
+
             const toggle = document.querySelector('[data-theme-toggle]');
 
-            if (! toggle) {
+            if (!toggle) {
                 return;
             }
 
@@ -566,7 +593,7 @@
                 toggle.setAttribute('title', isDark ? 'Light mode' : 'Dark mode');
             };
 
-            toggle.addEventListener('click', function () {
+            toggle.addEventListener('click', function() {
                 const isDark = document.documentElement.classList.contains('dark');
 
                 if (isDark) {
