@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
             ['email' => 'admin@elearning.com'],
             [
                 'name'     => 'Super Admin',
-                'password' => Hash::make('password'),
+                'password' => 'password',
                 'phone'    => '081234567890',
                 'bio'      => 'Administrator platform e-learning.',
             ]
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
         foreach ($teachers as $data) {
             $user = User::firstOrCreate(
                 ['email' => $data['email']],
-                ['name' => $data['name'], 'password' => Hash::make('password'),
+                ['name' => $data['name'], 'password' => 'password',
                  'phone' => $data['phone'], 'bio' => $data['bio']]
             );
             $user->syncRoles(['teacher']);
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
         foreach ($students as $data) {
             $user = User::firstOrCreate(
                 ['email' => $data['email']],
-                ['name' => $data['name'], 'password' => Hash::make('password'),
+                ['name' => $data['name'], 'password' => 'password',
                  'phone' => '08' . rand(1000000000, 9999999999),
                  'bio'   => 'Siswa aktif di platform e-learning.']
             );

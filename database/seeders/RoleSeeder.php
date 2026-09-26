@@ -20,7 +20,7 @@ class RoleSeeder extends Seeder
             ['email' => 'admin@elearning.com'],
             [
                 'name'     => 'Super Admin',
-                'password' => bcrypt('password'),
+                'password' => 'password',
             ]
         );
         $adminUser->assignRole($admin);
@@ -30,7 +30,7 @@ class RoleSeeder extends Seeder
             ['email' => 'guru@elearning.com'],
             [
                 'name'     => 'Budi Santoso',
-                'password' => bcrypt('password'),
+                'password' => 'password',
             ]
         );
         $teacherUser->assignRole($teacher);
@@ -40,7 +40,7 @@ class RoleSeeder extends Seeder
             ['email' => 'siswa@elearning.com'],
             [
                 'name'     => 'Ani Rahayu',
-                'password' => bcrypt('password'),
+                'password' => 'password',
             ]
         );
         $studentUser->assignRole($student);
